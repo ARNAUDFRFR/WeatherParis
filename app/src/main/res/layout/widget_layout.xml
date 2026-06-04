@@ -306,7 +306,7 @@
                             android:id="@+id/icon_day1_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day1_afternoon"
@@ -377,7 +377,7 @@
                             android:id="@+id/icon_day2_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day2_afternoon"
@@ -448,7 +448,7 @@
                             android:id="@+id/icon_day3_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day3_afternoon"
@@ -529,7 +529,7 @@
                             android:id="@+id/icon_day4_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day4_afternoon"
@@ -600,7 +600,7 @@
                             android:id="@+id/icon_day5_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day5_afternoon"
@@ -671,7 +671,7 @@
                             android:id="@+id/icon_day6_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginEnd="12dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day6_afternoon"
