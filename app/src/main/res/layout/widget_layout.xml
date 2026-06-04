@@ -29,10 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/accent_line"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:text="Météo Paris"
             android:textColor="@color/text_primary"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginEnd="8dp"
             android:text="Actualisé : --:--"
             android:textColor="@color/text_muted"
-            android:textSize="10sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/btn_refresh"
@@ -71,9 +71,9 @@
 
         <ImageView
             android:id="@+id/icon_weather"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginEnd="16dp"
             android:contentDescription="Current weather icon"
             android:src="@android:drawable/ic_menu_report_image" />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="--.-°"
                 android:textColor="@color/text_primary"
-                android:textSize="22sp"
+                android:textSize="38sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="Chargement..."
                 android:textColor="@color/text_secondary"
-                android:textSize="11sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:text="-- km/h"
                 android:textColor="@color/text_secondary"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/text_ecart"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="Écart saison : --"
                 android:textColor="@color/text_muted"
-                android:textSize="9sp" />
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -152,14 +152,14 @@
                 android:layout_height="wrap_content"
                 android:text="Matin"
                 android:textColor="@color/text_muted"
-                android:textSize="9sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/icon_matin"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp"
                 android:contentDescription="Matin icon"
                 android:src="@android:drawable/ic_menu_report_image" />
 
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:text="--°"
                 android:textColor="@color/text_primary"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -186,14 +186,14 @@
                 android:layout_height="wrap_content"
                 android:text="Midi"
                 android:textColor="@color/text_muted"
-                android:textSize="9sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/icon_midi"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp"
                 android:contentDescription="Midi icon"
                 android:src="@android:drawable/ic_menu_report_image" />
 
@@ -203,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:text="--°"
                 android:textColor="@color/text_primary"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -220,14 +220,14 @@
                 android:layout_height="wrap_content"
                 android:text="Soir"
                 android:textColor="@color/text_muted"
-                android:textSize="9sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/icon_soir"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp"
                 android:contentDescription="Soir icon"
                 android:src="@android:drawable/ic_menu_report_image" />
 
@@ -237,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:text="--°"
                 android:textColor="@color/text_primary"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -254,14 +254,14 @@
                 android:layout_height="wrap_content"
                 android:text="Nuit"
                 android:textColor="@color/text_muted"
-                android:textSize="9sp" />
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/icon_nuit"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="4dp"
                 android:contentDescription="Nuit icon"
                 android:src="@android:drawable/ic_menu_report_image" />
 
@@ -271,7 +271,7 @@
                 android:layout_height="wrap_content"
                 android:text="--°"
                 android:textColor="@color/text_primary"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -313,25 +313,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day1_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day1_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -341,17 +341,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day1"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -384,25 +384,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day2_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day2_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -412,17 +412,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day2"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -455,25 +455,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day3_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day3_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -483,17 +483,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day3"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -505,7 +505,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/border_glass"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="4dp" />
 
         <!-- Forecast Row 2 -->
@@ -536,25 +536,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day4_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day4_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -564,17 +564,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day4"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -607,25 +607,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day5_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day5_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -635,17 +635,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day5"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -678,25 +678,25 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="10sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
                         android:orientation="horizontal">
                         <ImageView
                             android:id="@+id/icon_day6_morning"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginEnd="1dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="2dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day6_afternoon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                     </LinearLayout>
 
@@ -706,17 +706,17 @@
                         android:layout_height="wrap_content"
                         android:text="--° / --°"
                         android:textColor="@color/text_primary"
-                        android:textSize="9sp" />
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/dot_uncertain_day6"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="6dp"
                     android:src="@drawable/uncertain_dot"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -740,8 +740,8 @@
             android:layout_height="wrap_content"
             android:text="Chargement des données..."
             android:textColor="@color/text_secondary"
-            android:textSize="9.5sp"
-            android:maxLines="3"
+            android:textSize="13sp"
+            android:maxLines="4"
             android:ellipsize="end" />
 
     </LinearLayout>

@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout Code
@@ -28,6 +30,22 @@ jobs:
 
     - name: Make Gradle executable
       run: chmod +x gradlew
+
+    - name: Generate and Commit Keystore if missing
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        if [ ! -f app/debug.keystore ]; then
+          echo "Keystore not found. Generating a persistent debug.keystore..."
+          keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add app/debug.keystore
+          git commit -m "Generate persistent debug keystore [skip ci]"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+        else
+          echo "Keystore already exists."
+        fi
 
     - name: Build Debug APK
       run: |
