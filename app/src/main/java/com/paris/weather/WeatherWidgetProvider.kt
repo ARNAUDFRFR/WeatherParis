@@ -239,6 +239,12 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, widgetId: Int, weatherData: WeatherData?) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
+            // Apply widget transparency from preferences
+            val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val transparencyPercent = prefs.getInt("widget_transparency", 85)
+            val alpha = (transparencyPercent * 255) / 100
+            views.setInt(R.id.widget_background_image, "setImageAlpha", alpha)
+
             if (weatherData != null) {
                 // Last update
                 views.setTextViewText(R.id.text_last_update, "Actualisé : ${weatherData.lastUpdate}")

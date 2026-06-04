@@ -68,6 +68,48 @@ class MainActivity : AppCompatActivity() {
         }
         rootView.addView(btnRefresh)
 
+        val textTransparency = TextView(this).apply {
+            text = "Transparence du widget : 85%"
+            textSize = 16f
+            setTextColor(android.graphics.Color.parseColor(titleColor))
+            setPadding(0, 24, 0, 8)
+        }
+        rootView.addView(textTransparency)
+
+        val prefs = getSharedPreferences("com.paris.weather.WIDGET_PREFS", android.content.Context.MODE_PRIVATE)
+        val initialTransparency = prefs.getInt("widget_transparency", 85)
+        textTransparency.text = "Transparence du widget : $initialTransparency%"
+
+        val seekBar = android.widget.SeekBar(this).apply {
+            max = 100
+            progress = initialTransparency
+            layoutParams = android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 0, 0, 24)
+            }
+        }
+        seekBar.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                textTransparency.text = "Transparence du widget : $progress%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {
+                val progressValue = seekBar?.progress ?: 85
+                prefs.edit().putInt("widget_transparency", progressValue).apply()
+                
+                // Notify widgets to redraw with new transparency
+                val widgetIntent = Intent(this@MainActivity, WeatherWidgetProvider::class.java).apply {
+                    action = WeatherWidgetProvider.ACTION_REFRESH
+                }
+                sendBroadcast(widgetIntent)
+            }
+        })
+        rootView.addView(seekBar)
+
         textGuide = TextView(this).apply {
             text = "\n\nComment ajouter le widget :\n1. Retournez sur votre écran d'accueil.\n2. Restez appuyé sur une zone vide.\n3. Choisissez 'Widgets'.\n4. Cherchez 'Météo Paris' et glissez le widget sur votre écran.\n\nNote : Cliquez sur un jour de prévisions dans le widget pour lire son commentaire en bas !"
             textSize = 14f
