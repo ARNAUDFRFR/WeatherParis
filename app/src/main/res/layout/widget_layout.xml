@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
@@ -12,47 +12,15 @@
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
-
-        <!-- Accent indicator -->
-        <ImageView
-            android:id="@+id/accent_line"
-            android:layout_width="32dp"
-            android:layout_height="3dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/accent_blue" />
-
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/accent_line"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="6dp"
-            android:text="Météo Paris"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text_last_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text_title"
-            android:layout_toStartOf="@id/btn_refresh"
-            android:layout_marginEnd="8dp"
-            android:text="Actualisé : --:--"
-            android:textColor="@color/text_muted"
-            android:textSize="13sp" />
+        android:layout_marginBottom="4dp">
 
         <ImageView
             android:id="@+id/btn_refresh"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:padding="11dp"
+            android:layout_alignParentTop="true"
+            android:padding="6dp"
             android:clickable="true"
             android:focusable="true"
             android:contentDescription="Refresh"
@@ -277,12 +245,34 @@
 
     </LinearLayout>
 
+    <!-- Dynamic Comment Box (Interactive, moved here) -->
+    <LinearLayout
+        android:id="@+id/layout_comment_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_inner_background"
+        android:orientation="vertical"
+        android:padding="6dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/text_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chargement des données..."
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:maxLines="4"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
     <!-- Forecast Section (6 Days, 2 Rows of 3 Columns) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <!-- Forecast Row 1 -->
         <LinearLayout
@@ -326,7 +316,7 @@
                             android:id="@+id/icon_day1_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day1_afternoon"
@@ -397,7 +387,7 @@
                             android:id="@+id/icon_day2_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day2_afternoon"
@@ -468,7 +458,7 @@
                             android:id="@+id/icon_day3_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day3_afternoon"
@@ -549,7 +539,7 @@
                             android:id="@+id/icon_day4_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day4_afternoon"
@@ -620,7 +610,7 @@
                             android:id="@+id/icon_day5_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day5_afternoon"
@@ -691,7 +681,7 @@
                             android:id="@+id/icon_day6_morning"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="6dp"
                             android:src="@android:drawable/ic_menu_report_image" />
                         <ImageView
                             android:id="@+id/icon_day6_afternoon"
@@ -725,25 +715,21 @@
 
     </LinearLayout>
 
-    <!-- Dynamic Comment Box (At the bottom, interactive) -->
-    <LinearLayout
-        android:id="@+id/layout_comment_box"
+    <!-- Last Update Section (Bottom Right) -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/widget_inner_background"
-        android:orientation="vertical"
-        android:padding="6dp">
+        android:layout_marginTop="2dp">
 
         <TextView
-            android:id="@+id/text_comment"
-            android:layout_width="match_parent"
+            android:id="@+id/text_last_update"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chargement des données..."
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:maxLines="4"
-            android:ellipsize="end" />
+            android:layout_alignParentEnd="true"
+            android:text="Actualisé : --:--"
+            android:textColor="@color/text_muted"
+            android:textSize="10sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

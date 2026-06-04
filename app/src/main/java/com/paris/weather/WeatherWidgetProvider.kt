@@ -240,8 +240,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
             if (weatherData != null) {
-                // Header
-                views.setTextViewText(R.id.text_title, "Météo Paris")
+                // Last update
                 views.setTextViewText(R.id.text_last_update, "Actualisé : ${weatherData.lastUpdate}")
 
                 // Current block
