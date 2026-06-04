@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="250dp"
     android:minHeight="180dp"
-    android:updatePeriodMillis="1800000"
+    android:updatePeriodMillis="10800000"
     android:previewImage="@android:drawable/sym_def_app_icon"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"

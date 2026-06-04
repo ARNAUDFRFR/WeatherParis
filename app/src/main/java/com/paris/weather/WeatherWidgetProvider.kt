@@ -20,7 +20,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         Log.d(TAG, "onUpdate called for ${appWidgetIds.size} widgets")
         
-        // Setup Alarm for periodic updates (every 30 minutes)
+        // Setup Alarm for periodic updates (every 3 hours)
         scheduleNextUpdate(context)
 
         // Perform scrape in background
@@ -111,8 +111,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             )
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             
-            // Alarm fires in 30 minutes (1800000 ms)
-            val interval = 30 * 60 * 1000L
+            // Alarm fires in 3 hours (10800000 ms)
+            val interval = 3 * 60 * 60 * 1000L
             val triggerTime = SystemClock.elapsedRealtime() + interval
             
             alarmManager.setInexactRepeating(
@@ -121,7 +121,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 interval,
                 pendingIntent
             )
-            Log.d(TAG, "Scheduled next update in 30 minutes")
+            Log.d(TAG, "Scheduled next update in 3 hours")
         }
 
         private fun getWidgetIds(context: Context): IntArray {
