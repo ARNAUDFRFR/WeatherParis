@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:layout_marginBottom="8dp">
 
         <!-- Accent indicator -->
-        <View
+        <ImageView
             android:id="@+id/accent_line"
             android:layout_width="32dp"
             android:layout_height="3dp"
@@ -357,7 +357,7 @@
             </RelativeLayout>
 
             <!-- Divider -->
-            <View
+            <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/border_glass" />
@@ -428,7 +428,7 @@
             </RelativeLayout>
 
             <!-- Divider -->
-            <View
+            <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/border_glass" />
@@ -501,7 +501,7 @@
         </LinearLayout>
 
         <!-- Divider between rows -->
-        <View
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/border_glass"
@@ -580,7 +580,7 @@
             </RelativeLayout>
 
             <!-- Divider -->
-            <View
+            <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/border_glass" />
@@ -651,7 +651,7 @@
             </RelativeLayout>
 
             <!-- Divider -->
-            <View
+            <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/border_glass" />
