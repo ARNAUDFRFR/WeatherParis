@@ -22,7 +22,7 @@
 
         <receiver
             android:name=".WeatherWidgetProvider"
-            android:exported="false"
+            android:exported="true"
             android:label="Météo Paris Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
