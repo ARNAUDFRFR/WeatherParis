@@ -62,6 +62,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
     }
 
     private fun triggerScrapeAndUpdate(context: Context, appWidgetIds: IntArray) {
+        val pendingResult = goAsync()
         // Run scraper in a plain background thread
         Thread {
             try {
@@ -82,6 +83,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error in scraping thread", e)
+            } finally {
+                pendingResult.finish()
             }
         }.start()
     }

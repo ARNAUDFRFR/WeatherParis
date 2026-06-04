@@ -36,7 +36,7 @@ object WeatherScraper {
             val doc = Jsoup.connect("https://www.meteo-paris.com")
                 .userAgent(USER_AGENT)
                 .header("Accept-Language", "fr-FR,fr;q=0.9")
-                .timeout(20000)
+                .timeout(8000)
                 .get()
 
             val htmlClean = doc.html()
@@ -158,7 +158,7 @@ object WeatherScraper {
             val docPrev = Jsoup.connect("https://www.meteo-paris.com/ile-de-france/previsions")
                 .userAgent(USER_AGENT)
                 .header("Accept-Language", "fr-FR,fr;q=0.9")
-                .timeout(20000)
+                .timeout(8000)
                 .get()
 
             val htmlPrev = docPrev.html()
