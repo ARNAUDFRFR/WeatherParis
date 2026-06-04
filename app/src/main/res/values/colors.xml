@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_glass">#D9F0F2F5</color>
+    <color name="bg_glass">#FFF0F2F5</color>
     <color name="border_glass">#0F000000</color>
     <color name="inner_bg">#0D000000</color>
     
