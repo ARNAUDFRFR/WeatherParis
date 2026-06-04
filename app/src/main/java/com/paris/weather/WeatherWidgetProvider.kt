@@ -329,7 +329,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 // Click on upper parts resets comment to today's summary
                 setDayClickIntent(context, views, widgetId, R.id.layout_current_weather, weatherData.summary)
                 setDayClickIntent(context, views, widgetId, R.id.layout_temp_row, weatherData.summary)
-                setDayClickIntent(context, views, widgetId, R.id.layout_header, weatherData.summary)
 
                 // Set refresh click intent on btn_refresh
                 val refreshIntent = Intent(context, WeatherWidgetProvider::class.java).apply {
