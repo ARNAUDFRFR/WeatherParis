@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_glass">#DD0F1219</color>
+    <color name="border_glass">#14FFFFFF</color>
+    <color name="inner_bg">#0DFFFFFF</color>
+    
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#CCFFFFFF</color>
+    <color name="text_muted">#70FFFFFF</color>
+    <color name="text_accent">#64B4FF</color>
+    <color name="accent_blue">#4285F4</color>
+</resources>

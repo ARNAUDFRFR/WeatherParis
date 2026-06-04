@@ -21,18 +21,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        val isDarkMode = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+        val bgColor = if (isDarkMode) "#121824" else "#F0F2F5"
+        val titleColor = if (isDarkMode) "#FFFFFF" else "#141823"
+        val statusColor = if (isDarkMode) "#94A3B8" else "#464E5A"
+        val guideColor = if (isDarkMode) "#64748B" else "#828A96"
+        val btnColor = if (isDarkMode) "#4285F4" else "#0277BD"
+
         // Simple programmatic layout since we are a widget helper app
         val rootView = android.widget.LinearLayout(this).apply {
             orientation = android.widget.LinearLayout.VERTICAL
             gravity = android.view.Gravity.CENTER_HORIZONTAL
             setPadding(48, 48, 48, 48)
-            setBackgroundColor(android.graphics.Color.parseColor("#121824"))
+            setBackgroundColor(android.graphics.Color.parseColor(bgColor))
         }
 
         val titleView = TextView(this).apply {
             text = "Météo Paris Widget"
             textSize = 24f
-            setTextColor(android.graphics.Color.WHITE)
+            setTextColor(android.graphics.Color.parseColor(titleColor))
             typeface = android.graphics.Typeface.DEFAULT_BOLD
             setPadding(0, 0, 0, 48)
         }
@@ -46,14 +53,14 @@ class MainActivity : AppCompatActivity() {
         textStatus = TextView(this).apply {
             text = "Prêt"
             textSize = 16f
-            setTextColor(android.graphics.Color.parseColor("#94A3B8"))
+            setTextColor(android.graphics.Color.parseColor(statusColor))
             setPadding(0, 0, 0, 48)
         }
         rootView.addView(textStatus)
 
         btnRefresh = Button(this).apply {
             text = "Actualiser la Météo"
-            setBackgroundColor(android.graphics.Color.parseColor("#4285F4"))
+            setBackgroundColor(android.graphics.Color.parseColor(btnColor))
             setTextColor(android.graphics.Color.WHITE)
         }
         btnRefresh.setOnClickListener {
@@ -64,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         textGuide = TextView(this).apply {
             text = "\n\nComment ajouter le widget :\n1. Retournez sur votre écran d'accueil.\n2. Restez appuyé sur une zone vide.\n3. Choisissez 'Widgets'.\n4. Cherchez 'Météo Paris' et glissez le widget sur votre écran.\n\nNote : Cliquez sur un jour de prévisions dans le widget pour lire son commentaire en bas !"
             textSize = 14f
-            setTextColor(android.graphics.Color.parseColor("#64748B"))
+            setTextColor(android.graphics.Color.parseColor(guideColor))
             gravity = android.view.Gravity.CENTER
         }
         rootView.addView(textGuide)
