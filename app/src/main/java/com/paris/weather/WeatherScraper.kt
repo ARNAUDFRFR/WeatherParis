@@ -45,14 +45,19 @@ object WeatherScraper {
         return sb.toString()
     }
 
-    private fun fetchMeteoFranceNowcast(): Triple<List<Int>, String, String> {
+    private fun fetchMeteoFranceNowcast(zone: String): Triple<List<Int>, String, String> {
         val defaultBlocks = List(9) { 1 }
         val defaultStart = "--:--"
         val defaultEnd = "--:--"
         
         try {
-            Log.d(TAG, "Fetching Meteo France page to get mfsession cookie...")
-            val response = Jsoup.connect("https://meteofrance.com/previsions-meteo-france/paris/75000")
+            Log.d(TAG, "Fetching Meteo France page to get mfsession cookie for zone $zone...")
+            val pageUrl = if (zone == "neuilly") {
+                "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine/92200"
+            } else {
+                "https://meteofrance.com/previsions-meteo-france/paris/75000"
+            }
+            val response = Jsoup.connect(pageUrl)
                 .userAgent(USER_AGENT)
                 .header("Accept-Language", "fr-FR,fr;q=0.9")
                 .timeout(10000)
@@ -67,7 +72,11 @@ object WeatherScraper {
             Log.d(TAG, "mfsession cookie found! Decoding token...")
             val decodedToken = rot13(java.net.URLDecoder.decode(mfsession, "UTF-8"))
             
-            val url = "https://rwg.meteofrance.com/internet2018client/2.0/nowcast/rain?lat=48.859333&lon=2.340591"
+            val url = if (zone == "neuilly") {
+                "https://rwg.meteofrance.com/internet2018client/2.0/nowcast/rain?lat=48.887173&lon=2.267001"
+            } else {
+                "https://rwg.meteofrance.com/internet2018client/2.0/nowcast/rain?lat=48.859333&lon=2.340591"
+            }
             Log.d(TAG, "Fetching nowcast API: $url")
             val jsonStr = Jsoup.connect(url)
                 .userAgent(USER_AGENT)
@@ -438,7 +447,13 @@ object WeatherScraper {
             )
         }
 
-        val (nowcastBlocks, nowcastStart, nowcastEnd) = fetchMeteoFranceNowcast()
+        val zone = if (context != null) {
+            val prefs = context.getSharedPreferences("com.paris.weather.WIDGET_PREFS", Context.MODE_PRIVATE)
+            prefs.getString("widget_zone", "paris") ?: "paris"
+        } else {
+            "paris"
+        }
+        val (nowcastBlocks, nowcastStart, nowcastEnd) = fetchMeteoFranceNowcast(zone)
 
         val dataObj = WeatherData(
             dayText = dayText,

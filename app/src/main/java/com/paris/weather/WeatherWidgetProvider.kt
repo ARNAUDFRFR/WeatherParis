@@ -94,6 +94,24 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     updateWidget(context, appWidgetManager, widgetId, cachedData)
                 }
             }
+            ACTION_SELECT_ZONE_PARIS -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putString("widget_zone", "paris").apply()
+                    val appWidgetIds = intArrayOf(widgetId)
+                    triggerScrapeAndUpdate(context, appWidgetIds)
+                }
+            }
+            ACTION_SELECT_ZONE_NEUILLY -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putString("widget_zone", "neuilly").apply()
+                    val appWidgetIds = intArrayOf(widgetId)
+                    triggerScrapeAndUpdate(context, appWidgetIds)
+                }
+            }
             Intent.ACTION_BOOT_COMPLETED -> {
                 scheduleNextUpdate(context)
             }
@@ -145,6 +163,9 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         const val ACTION_HIDE_RAIN_POPUP = "com.paris.weather.ACTION_HIDE_RAIN_POPUP"
         const val ACTION_SHOW_TEMP_POPUP = "com.paris.weather.ACTION_SHOW_TEMP_POPUP"
         const val ACTION_HIDE_TEMP_POPUP = "com.paris.weather.ACTION_HIDE_TEMP_POPUP"
+        
+        const val ACTION_SELECT_ZONE_PARIS = "com.paris.weather.ACTION_SELECT_ZONE_PARIS"
+        const val ACTION_SELECT_ZONE_NEUILLY = "com.paris.weather.ACTION_SELECT_ZONE_NEUILLY"
         
         private const val PREFS_NAME = "com.paris.weather.WIDGET_PREFS"
         private const val KEY_COMMENT_PREFIX = "comment_"
@@ -338,6 +359,18 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 setPopupIntent(context, views, widgetId, R.id.btn_close_rain_popup, ACTION_HIDE_RAIN_POPUP)
                 setPopupIntent(context, views, widgetId, R.id.text_current_temp, ACTION_SHOW_TEMP_POPUP)
                 setPopupIntent(context, views, widgetId, R.id.btn_close_temp_popup, ACTION_HIDE_TEMP_POPUP)
+                setPopupIntent(context, views, widgetId, R.id.btn_tab_paris, ACTION_SELECT_ZONE_PARIS)
+                setPopupIntent(context, views, widgetId, R.id.btn_tab_neuilly, ACTION_SELECT_ZONE_NEUILLY)
+
+                // Highlight selected zone tab
+                val currentZone = prefs.getString("widget_zone", "paris") ?: "paris"
+                if (currentZone == "neuilly") {
+                    views.setTextColor(R.id.btn_tab_paris, Color.parseColor("#828A96"))
+                    views.setTextColor(R.id.btn_tab_neuilly, Color.WHITE)
+                } else {
+                    views.setTextColor(R.id.btn_tab_paris, Color.WHITE)
+                    views.setTextColor(R.id.btn_tab_neuilly, Color.parseColor("#828A96"))
+                }
 
                 // Dynamic popup visibility & image loading
                 val showRain = prefs.getBoolean("rain_popup_$widgetId", false)

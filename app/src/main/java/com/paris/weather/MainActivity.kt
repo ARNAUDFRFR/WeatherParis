@@ -68,6 +68,53 @@ class MainActivity : AppCompatActivity() {
         }
         rootView.addView(btnRefresh)
 
+        val prefs = getSharedPreferences("com.paris.weather.WIDGET_PREFS", android.content.Context.MODE_PRIVATE)
+
+        val textZone = TextView(this).apply {
+            text = "Zone de prévision pluie 1h :"
+            textSize = 16f
+            setTextColor(android.graphics.Color.parseColor(titleColor))
+            setPadding(0, 24, 0, 8)
+        }
+        rootView.addView(textZone)
+
+        val spinnerZone = android.widget.Spinner(this).apply {
+            val zones = arrayOf("Paris (75000)", "Neuilly-sur-Seine (92200)")
+            val adapter = android.widget.ArrayAdapter(
+                this@MainActivity,
+                android.R.layout.simple_spinner_item,
+                zones
+            ).apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
+            this.adapter = adapter
+            
+            val currentZone = prefs.getString("widget_zone", "paris") ?: "paris"
+            setSelection(if (currentZone == "neuilly") 1 else 0)
+            
+            layoutParams = android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 0, 0, 24)
+            }
+        }
+        
+        var isSpinnerInitialized = false
+        spinnerZone.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (!isSpinnerInitialized) {
+                    isSpinnerInitialized = true
+                    return
+                }
+                val selectedZone = if (position == 1) "neuilly" else "paris"
+                prefs.edit().putString("widget_zone", selectedZone).apply()
+                refreshWeather()
+            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        }
+        rootView.addView(spinnerZone)
+
         val textTransparency = TextView(this).apply {
             text = "Transparence du widget : 85%"
             textSize = 16f
@@ -76,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         }
         rootView.addView(textTransparency)
 
-        val prefs = getSharedPreferences("com.paris.weather.WIDGET_PREFS", android.content.Context.MODE_PRIVATE)
         val initialTransparency = prefs.getInt("widget_transparency", 85)
         textTransparency.text = "Transparence du widget : $initialTransparency%"
 
