@@ -55,62 +55,82 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:orientation="vertical"
-            android:layout_marginEnd="16dp">
+            android:gravity="end">
 
-            <TextView
-                android:id="@+id/text_precip_proba"
+            <ImageView
+                android:id="@+id/btn_refresh"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Refresh"
+                android:src="@android:drawable/ic_menu_rotate"
+                android:layout_marginEnd="-6dp"
+                android:layout_marginBottom="4dp" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pluie : --%"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp" />
+                android:orientation="horizontal"
+                android:gravity="end">
 
-            <TextView
-                android:id="@+id/text_precip_volume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Volume : -- mm"
-                android:textColor="@color/text_muted"
-                android:textSize="11sp" />
+                <!-- Precipitation Block -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:id="@+id/text_precip_proba"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pluie : --%"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/text_precip_volume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Volume : -- mm"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <!-- Wind/Ecart Block -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="4dp">
+
+                    <TextView
+                        android:id="@+id/text_wind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- km/h"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/text_ecart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Écart saison : --"
+                        android:textColor="@color/text_muted"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="vertical"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:id="@+id/text_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-- km/h"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/text_ecart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Écart saison : --"
-                android:textColor="@color/text_muted"
-                android:textSize="11sp" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/btn_refresh"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="6dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="Refresh"
-            android:src="@android:drawable/ic_menu_rotate" />
 
     </LinearLayout>
 
