@@ -29,6 +29,8 @@ object WeatherScraper {
         var currentTempDec = "--.-"
         var windText = "-- km/h"
         var ecartText = "--"
+        var precipProba = "0"
+        var precipVolume = "0 mm"
         val lastUpdate = SimpleDateFormat("H:mm", Locale.FRANCE).format(Date())
 
         // 1. Scrape Homepage
@@ -188,6 +190,23 @@ object WeatherScraper {
                 }
             }
 
+            // Today's precipitation (first date match on the previsions page)
+            if (dateMatches.isNotEmpty()) {
+                val firstMatch = dateMatches[0]
+                val posT = firstMatch.first
+                val windowT = htmlPrev.substring(posT, Math.min(posT + 2000, htmlPrev.length))
+                
+                val probaM = Pattern.compile("Pluie\\s*\\(proba\\)[^}]+\"value\"\\s*:\\s*(\\d+)", Pattern.CASE_INSENSITIVE).matcher(windowT)
+                val volM = Pattern.compile("Pluie\\s*\\(24h\\)[^}]+\"value\"\\s*:\\s*(\\d+(?:[.,]\\d+)?)", Pattern.CASE_INSENSITIVE).matcher(windowT)
+                
+                if (probaM.find()) {
+                    precipProba = probaM.group(1) ?: "0"
+                }
+                if (volM.find()) {
+                    precipVolume = "${volM.group(1) ?: "0"} mm"
+                }
+            }
+
             val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).format(Date())
             val seenDates = HashSet<String>()
 
@@ -298,6 +317,8 @@ object WeatherScraper {
             currentTempDec = currentTempDec,
             windText = windText,
             ecartText = ecartText,
+            precipProba = precipProba,
+            precipVolume = precipVolume,
             lastUpdate = lastUpdate,
             forecasts = forecasts
         )

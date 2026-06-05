@@ -57,6 +57,31 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="vertical"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/text_precip_proba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pluie : --%"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/text_precip_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volume : -- mm"
+                android:textColor="@color/text_muted"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical"
             android:layout_marginEnd="8dp">
 
             <TextView

@@ -16,6 +16,8 @@ data class WeatherData(
     val currentTempDec: String,
     val windText: String,
     val ecartText: String,
+    val precipProba: String,
+    val precipVolume: String,
     val lastUpdate: String,
     val forecasts: List<ForecastData>
 )

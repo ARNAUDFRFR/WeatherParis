@@ -164,6 +164,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     put("currentTempDec", data.currentTempDec)
                     put("windText", data.windText)
                     put("ecartText", data.ecartText)
+                    put("precipProba", data.precipProba)
+                    put("precipVolume", data.precipVolume)
                     put("lastUpdate", data.lastUpdate)
                     
                     val fArray = JSONArray()
@@ -227,6 +229,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     currentTempDec = obj.getString("currentTempDec"),
                     windText = obj.getString("windText"),
                     ecartText = obj.getString("ecartText"),
+                    precipProba = obj.getString("precipProba"),
+                    precipVolume = obj.getString("precipVolume"),
                     lastUpdate = obj.getString("lastUpdate"),
                     forecasts = forecasts
                 )
@@ -251,6 +255,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
                 // Current block
                 views.setTextViewText(R.id.text_current_temp, "${weatherData.currentTempDec}°")
+                views.setTextViewText(R.id.text_precip_proba, "Pluie : ${weatherData.precipProba}%")
+                views.setTextViewText(R.id.text_precip_volume, "Volume : ${weatherData.precipVolume}")
                 views.setTextViewText(R.id.text_wind, weatherData.windText)
                 views.setTextViewText(R.id.text_ecart, "Écart saison : ${weatherData.ecartText}")
 
