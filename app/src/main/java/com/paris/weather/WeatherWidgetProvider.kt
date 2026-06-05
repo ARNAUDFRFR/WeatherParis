@@ -218,6 +218,14 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     put("precipProba", data.precipProba)
                     put("precipVolume", data.precipVolume)
                     put("lastUpdate", data.lastUpdate)
+                    put("rainHourStart", data.rainHourStart)
+                    put("rainHourEnd", data.rainHourEnd)
+                    
+                    val rBlocksArray = JSONArray()
+                    for (b in data.rainHourBlocks) {
+                        rBlocksArray.put(b)
+                    }
+                    put("rainHourBlocks", rBlocksArray)
                     
                     val fArray = JSONArray()
                     for (f in data.forecasts) {
@@ -264,6 +272,17 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                         )
                     )
                 }
+                
+                val rainHourBlocks = ArrayList<Int>()
+                val rBlocksArray = obj.optJSONArray("rainHourBlocks")
+                if (rBlocksArray != null) {
+                    for (i in 0 until rBlocksArray.length()) {
+                        rainHourBlocks.add(rBlocksArray.getInt(i))
+                    }
+                } else {
+                    repeat(9) { rainHourBlocks.add(1) }
+                }
+                
                 WeatherData(
                     dayText = obj.getString("dayText"),
                     weatherIconName = obj.getString("weatherIconName"),
@@ -283,6 +302,9 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     precipProba = obj.getString("precipProba"),
                     precipVolume = obj.getString("precipVolume"),
                     lastUpdate = obj.getString("lastUpdate"),
+                    rainHourBlocks = rainHourBlocks,
+                    rainHourStart = obj.optString("rainHourStart", "--:--"),
+                    rainHourEnd = obj.optString("rainHourEnd", "--:--"),
                     forecasts = forecasts
                 )
             } catch (e: Exception) {
@@ -327,6 +349,27 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     if (precipFile.exists()) {
                         val bmp = decodeScaledBitmap(precipFile.absolutePath, 500)
                         if (bmp != null) views.setImageViewBitmap(R.id.image_rain_graph, bmp)
+                    }
+                    
+                    // Bind nowcast times
+                    views.setTextViewText(R.id.text_rain_hour_start, weatherData.rainHourStart)
+                    views.setTextViewText(R.id.text_rain_hour_end, weatherData.rainHourEnd)
+                    
+                    // Bind nowcast blocks color
+                    val blockViewIds = listOf(
+                        R.id.rain_block_1, R.id.rain_block_2, R.id.rain_block_3,
+                        R.id.rain_block_4, R.id.rain_block_5, R.id.rain_block_6,
+                        R.id.rain_block_7, R.id.rain_block_8, R.id.rain_block_9
+                    )
+                    for (i in 0 until 9) {
+                        val intensity = if (i < weatherData.rainHourBlocks.size) weatherData.rainHourBlocks[i] else 1
+                        val colorRes = when (intensity) {
+                            2 -> R.color.rain_light
+                            3 -> R.color.rain_moderate
+                            4 -> R.color.rain_heavy
+                            else -> R.color.rain_none
+                        }
+                        views.setInt(blockViewIds[i], "setBackgroundResource", colorRes)
                     }
                 } else {
                     views.setViewVisibility(R.id.layout_rain_popup, android.view.View.GONE)

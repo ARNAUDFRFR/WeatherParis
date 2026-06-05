@@ -9,4 +9,10 @@
     <color name="text_muted">#828A96</color>
     <color name="text_accent">#0277BD</color>
     <color name="accent_blue">#0277BD</color>
+    
+    <!-- Rain Timeline Colors -->
+    <color name="rain_none">#33FFFFFF</color>
+    <color name="rain_light">#5EC5ED</color>
+    <color name="rain_moderate">#009EE0</color>
+    <color name="rain_heavy">#006AB3</color>
 </resources>

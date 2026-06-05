@@ -833,6 +833,137 @@
                 android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_gallery" />
 
+            <!-- 1-Hour Rain Timeline -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp">
+
+                <!-- Time Markers and Label -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pluie dans l'heure : "
+                            android:textColor="#828A96"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/text_rain_hour_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--:--"
+                            android:textColor="#E0E0E0"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_rain_hour_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="#E0E0E0"
+                        android:textSize="12sp"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+                <!-- 9 Blocks Grid -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:orientation="horizontal"
+                    android:weightSum="9">
+
+                    <View
+                        android:id="@+id/rain_block_1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_5"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_6"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_7"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_8"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="3dp"
+                        android:background="@color/rain_none" />
+
+                    <View
+                        android:id="@+id/rain_block_9"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/rain_none" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </FrameLayout>

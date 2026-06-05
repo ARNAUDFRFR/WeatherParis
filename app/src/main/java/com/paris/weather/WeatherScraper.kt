@@ -33,6 +33,123 @@ object WeatherScraper {
         }
     }
 
+    private fun rot13(text: String): String {
+        val sb = java.lang.StringBuilder()
+        for (c in text) {
+            when (c) {
+                in 'a'..'z' -> sb.append((97 + (c.code - 97 + 13) % 26).toChar())
+                in 'A'..'Z' -> sb.append((65 + (c.code - 65 + 13) % 26).toChar())
+                else -> sb.append(c)
+            }
+        }
+        return sb.toString()
+    }
+
+    private fun fetchMeteoFranceNowcast(): Triple<List<Int>, String, String> {
+        val defaultBlocks = List(9) { 1 }
+        val defaultStart = "--:--"
+        val defaultEnd = "--:--"
+        
+        try {
+            Log.d(TAG, "Fetching Meteo France page to get mfsession cookie...")
+            val response = Jsoup.connect("https://meteofrance.com/previsions-meteo-france/paris/75000")
+                .userAgent(USER_AGENT)
+                .header("Accept-Language", "fr-FR,fr;q=0.9")
+                .timeout(10000)
+                .execute()
+                
+            val mfsession = response.cookie("mfsession")
+            if (mfsession.isNullOrEmpty()) {
+                Log.e(TAG, "mfsession cookie not found!")
+                return Triple(defaultBlocks, defaultStart, defaultEnd)
+            }
+            
+            Log.d(TAG, "mfsession cookie found! Decoding token...")
+            val decodedToken = rot13(java.net.URLDecoder.decode(mfsession, "UTF-8"))
+            
+            val url = "https://rwg.meteofrance.com/internet2018client/2.0/nowcast/rain?lat=48.859333&lon=2.340591"
+            Log.d(TAG, "Fetching nowcast API: $url")
+            val jsonStr = Jsoup.connect(url)
+                .userAgent(USER_AGENT)
+                .header("Authorization", "Bearer $decodedToken")
+                .ignoreContentType(true)
+                .timeout(10000)
+                .execute()
+                .body()
+                
+            val obj = org.json.JSONObject(jsonStr)
+            val forecast = obj.optJSONObject("properties")?.optJSONArray("forecast")
+            
+            val blocks = ArrayList<Int>()
+            var start = defaultStart
+            var end = defaultEnd
+            
+            if (forecast != null && forecast.length() > 0) {
+                val formatIso = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.FRANCE).apply {
+                    timeZone = java.util.TimeZone.getTimeZone("UTC")
+                }
+                val formatLocal = SimpleDateFormat("HH:mm", Locale.FRANCE)
+                
+                // Start time: 5 minutes before first block
+                val firstObj = forecast.optJSONObject(0)
+                val firstTimeStr = firstObj?.optString("time")
+                if (!firstTimeStr.isNullOrEmpty()) {
+                    try {
+                        val dt = formatIso.parse(firstTimeStr)
+                        if (dt != null) {
+                            val cal = Calendar.getInstance()
+                            cal.time = dt
+                            cal.add(Calendar.MINUTE, -5)
+                            start = formatLocal.format(cal.time)
+                        }
+                    } catch (e: Exception) {
+                        try {
+                            start = firstTimeStr.substringAfter("T").substring(0, 5)
+                        } catch (ex: Exception) {
+                            start = defaultStart
+                        }
+                    }
+                }
+                
+                // End time: last block time
+                val lastObj = forecast.optJSONObject(forecast.length() - 1)
+                val lastTimeStr = lastObj?.optString("time")
+                if (!lastTimeStr.isNullOrEmpty()) {
+                    try {
+                        val dt = formatIso.parse(lastTimeStr)
+                        if (dt != null) {
+                            end = formatLocal.format(dt)
+                        }
+                    } catch (e: Exception) {
+                        try {
+                            end = lastTimeStr.substringAfter("T").substring(0, 5)
+                        } catch (ex: Exception) {
+                            end = defaultEnd
+                        }
+                    }
+                }
+                
+                // Parse intensities
+                for (i in 0 until Math.min(forecast.length(), 9)) {
+                    val item = forecast.optJSONObject(i)
+                    val intensity = item?.optInt("rain_intensity", 1) ?: 1
+                    blocks.add(intensity)
+                }
+            }
+            
+            while (blocks.size < 9) {
+                blocks.add(1)
+            }
+            
+            return Triple(blocks, start, end)
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Error fetching nowcast rain data in Kotlin", e)
+            return Triple(defaultBlocks, defaultStart, defaultEnd)
+        }
+    }
+
+
     fun scrape(context: Context? = null): WeatherData? {
         var dayText = "Aujourd'hui"
         var weatherIconName = "picto_44"
@@ -321,6 +438,8 @@ object WeatherScraper {
             )
         }
 
+        val (nowcastBlocks, nowcastStart, nowcastEnd) = fetchMeteoFranceNowcast()
+
         val dataObj = WeatherData(
             dayText = dayText,
             weatherIconName = weatherIconName,
@@ -340,6 +459,9 @@ object WeatherScraper {
             precipProba = precipProba,
             precipVolume = precipVolume,
             lastUpdate = lastUpdate,
+            rainHourBlocks = nowcastBlocks,
+            rainHourStart = nowcastStart,
+            rainHourEnd = nowcastEnd,
             forecasts = forecasts
         )
 

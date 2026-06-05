@@ -19,6 +19,9 @@ data class WeatherData(
     val precipProba: String,
     val precipVolume: String,
     val lastUpdate: String,
+    val rainHourBlocks: List<Int>,
+    val rainHourStart: String,
+    val rainHourEnd: String,
     val forecasts: List<ForecastData>
 )
 
