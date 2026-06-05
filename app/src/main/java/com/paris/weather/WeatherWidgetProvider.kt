@@ -325,7 +325,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     views.setViewVisibility(R.id.layout_rain_popup, android.view.View.VISIBLE)
                     val precipFile = java.io.File(context.cacheDir, "precipitation.png")
                     if (precipFile.exists()) {
-                        val bmp = android.graphics.BitmapFactory.decodeFile(precipFile.absolutePath)
+                        val bmp = decodeScaledBitmap(precipFile.absolutePath, 500)
                         if (bmp != null) views.setImageViewBitmap(R.id.image_rain_graph, bmp)
                     }
                 } else {
@@ -336,7 +336,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     views.setViewVisibility(R.id.layout_temp_popup, android.view.View.VISIBLE)
                     val tempFile = java.io.File(context.cacheDir, "temperatures.png")
                     if (tempFile.exists()) {
-                        val bmp = android.graphics.BitmapFactory.decodeFile(tempFile.absolutePath)
+                        val bmp = decodeScaledBitmap(tempFile.absolutePath, 500)
                         if (bmp != null) views.setImageViewBitmap(R.id.image_temp_graph, bmp)
                     }
                 } else {
@@ -484,6 +484,29 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             views.setOnClickPendingIntent(viewId, pendingIntent)
+        }
+
+        private fun decodeScaledBitmap(filePath: String, maxDim: Int): android.graphics.Bitmap? {
+            try {
+                val options = android.graphics.BitmapFactory.Options().apply {
+                    inJustDecodeBounds = true
+                }
+                android.graphics.BitmapFactory.decodeFile(filePath, options)
+                
+                var scale = 1
+                while ((options.outWidth / scale / 2) >= maxDim && (options.outHeight / scale / 2) >= maxDim) {
+                    scale *= 2
+                }
+                
+                val decodeOptions = android.graphics.BitmapFactory.Options().apply {
+                    inSampleSize = scale
+                    inPreferredConfig = android.graphics.Bitmap.Config.RGB_565
+                }
+                return android.graphics.BitmapFactory.decodeFile(filePath, decodeOptions)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error decoding scaled bitmap: $filePath", e)
+                return null
+            }
         }
     }
 }

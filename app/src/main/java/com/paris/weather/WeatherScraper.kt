@@ -348,7 +348,25 @@ object WeatherScraper {
             val precipFile = java.io.File(cacheDir, "precipitation.png")
             val tempFile = java.io.File(cacheDir, "temperatures.png")
             
-            downloadImage("https://s.meteo-villes.com/graphs/station-paris/precipitation.png", precipFile)
+            var radarUrl = "https://www.infoclimat.fr/api/VTYELlRuCj8AKAQxV2ZSMFMhBWdSMgYxAn4MYAQxByhUNgIwBTcEMQM3X2gFNAdlBWhRO1EzVmlUMw9h/radar/nord_idf?dc0b4fd56dfa02bfeb6024ba1903c10e" // fallback
+            try {
+                val docSuivi = Jsoup.connect("https://www.meteo-paris.com/ile-de-france/suivi-des-pluies")
+                    .userAgent(USER_AGENT)
+                    .header("Accept-Language", "fr-FR,fr;q=0.9")
+                    .timeout(8000)
+                    .get()
+                val img = docSuivi.select("img[src*=infoclimat.fr/api/]").first()
+                if (img != null) {
+                    val srcUrl = img.attr("src")
+                    if (srcUrl.isNotEmpty()) {
+                        radarUrl = srcUrl
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error scraping suivi des pluies radar image", e)
+            }
+            
+            downloadImage(radarUrl, precipFile)
             downloadImage("https://s.meteo-villes.com/graphs/station-paris/temperatures.png", tempFile)
         }
 
