@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -938,7 +938,7 @@
                     android:orientation="horizontal"
                     android:weightSum="9">
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -946,7 +946,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -954,7 +954,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -962,7 +962,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -970,7 +970,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -978,7 +978,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_6"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -986,7 +986,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_7"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -994,7 +994,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_8"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -1002,7 +1002,7 @@
                         android:layout_marginEnd="3dp"
                         android:background="@color/rain_none" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/rain_block_9"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
