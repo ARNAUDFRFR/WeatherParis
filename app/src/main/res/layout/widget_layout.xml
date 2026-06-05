@@ -1,4 +1,4 @@
-﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -820,7 +820,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
+                        android:layout_marginTop="6dp">
 
                         <TextView
                             android:id="@+id/btn_tab_paris"
@@ -828,12 +828,12 @@
                             android:layout_height="wrap_content"
                             android:text="PARIS"
                             android:textColor="#FFFFFF"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textStyle="bold"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
                             android:background="@drawable/widget_inner_background"
                             android:clickable="true"
                             android:focusable="true" />
@@ -844,12 +844,12 @@
                             android:layout_height="wrap_content"
                             android:text="NEUILLY"
                             android:textColor="#828A96"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textStyle="bold"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
                             android:layout_marginStart="8dp"
                             android:background="@drawable/widget_inner_background"
                             android:clickable="true"
@@ -873,68 +873,28 @@
 
             </RelativeLayout>
 
-            <!-- Graph Image -->
-            <ImageView
-                android:id="@+id/image_rain_graph"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@android:drawable/ic_menu_gallery" />
-
-            <!-- 1-Hour Rain Timeline -->
+            <!-- 1-Hour Rain Timeline (Positioned ABOVE the Graph Image) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp">
 
-                <!-- Time Markers and Label -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <!-- Title -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_alignParentStart="true">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pluie dans l'heure : "
-                            android:textColor="#828A96"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_rain_hour_start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--:--"
-                            android:textColor="#E0E0E0"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/text_rain_hour_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--:--"
-                        android:textColor="#E0E0E0"
-                        android:textSize="12sp"
-                        android:layout_alignParentEnd="true" />
-
-                </RelativeLayout>
+                    android:text="Pluie dans l'heure :"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12.5sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp" />
 
                 <!-- 9 Blocks Grid -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
+                    android:layout_height="14dp"
                     android:orientation="horizontal"
                     android:weightSum="9">
 
@@ -1011,7 +971,42 @@
 
                 </LinearLayout>
 
+                <!-- Time Markers below the blocks -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp">
+
+                    <TextView
+                        android:id="@+id/text_rain_hour_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="#828A96"
+                        android:textSize="10sp"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:id="@+id/text_rain_hour_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="#828A96"
+                        android:textSize="10sp"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
             </LinearLayout>
+
+            <!-- Graph Image (Reduced height and positioned below the timeline) -->
+            <ImageView
+                android:id="@+id/image_rain_graph"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginTop="4dp"
+                android:scaleType="fitCenter"
+                android:src="@android:drawable/ic_menu_gallery" />
 
         </LinearLayout>
 
