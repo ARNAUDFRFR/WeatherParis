@@ -251,7 +251,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
                 // Current block
                 views.setTextViewText(R.id.text_current_temp, "${weatherData.currentTempDec}°")
-                views.setTextViewText(R.id.text_condition, weatherData.conditionPhrase)
                 views.setTextViewText(R.id.text_wind, weatherData.windText)
                 views.setTextViewText(R.id.text_ecart, "Écart saison : ${weatherData.ecartText}")
 
