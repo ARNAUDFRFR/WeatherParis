@@ -1,5 +1,6 @@
 package com.paris.weather
 
+import android.content.Context
 import android.util.Log
 import org.jsoup.Jsoup
 import java.net.URLDecoder
@@ -13,7 +14,26 @@ object WeatherScraper {
     private const val TAG = "WeatherScraper"
     private const val USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
-    fun scrape(): WeatherData? {
+    private fun downloadImage(urlString: String, destFile: java.io.File) {
+        try {
+            val url = java.net.URL(urlString)
+            val connection = url.openConnection() as java.net.HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.setRequestProperty("User-Agent", USER_AGENT)
+            connection.connectTimeout = 10000
+            connection.readTimeout = 10000
+            connection.inputStream.use { input ->
+                destFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Log.d(TAG, "Downloaded image successfully: $urlString to ${destFile.absolutePath}")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading image: $urlString", e)
+        }
+    }
+
+    fun scrape(context: Context? = null): WeatherData? {
         var dayText = "Aujourd'hui"
         var weatherIconName = "picto_44"
         var conditionPhrase = "Ensoleillé"
@@ -301,7 +321,7 @@ object WeatherScraper {
             )
         }
 
-        return WeatherData(
+        val dataObj = WeatherData(
             dayText = dayText,
             weatherIconName = weatherIconName,
             conditionPhrase = conditionPhrase,
@@ -322,6 +342,17 @@ object WeatherScraper {
             lastUpdate = lastUpdate,
             forecasts = forecasts
         )
+
+        if (context != null) {
+            val cacheDir = context.cacheDir
+            val precipFile = java.io.File(cacheDir, "precipitation.png")
+            val tempFile = java.io.File(cacheDir, "temperatures.png")
+            
+            downloadImage("https://s.meteo-villes.com/graphs/station-paris/precipitation.png", precipFile)
+            downloadImage("https://s.meteo-villes.com/graphs/station-paris/temperatures.png", tempFile)
+        }
+
+        return dataObj
     }
 
     private fun getDayNameFr(dateStr: String): String {

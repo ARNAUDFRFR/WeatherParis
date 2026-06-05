@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
 
         Thread {
             try {
-                val data = WeatherScraper.scrape()
+                val data = WeatherScraper.scrape(this)
                 runOnUiThread {
                     progressLoading.visibility = View.GONE
                     btnRefresh.isEnabled = true

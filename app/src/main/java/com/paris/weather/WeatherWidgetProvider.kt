@@ -48,6 +48,52 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     updateWidget(context, appWidgetManager, widgetId, cachedData)
                 }
             }
+            ACTION_SHOW_RAIN_POPUP -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("rain_popup_$widgetId", true).apply()
+                    prefs.edit().putBoolean("temp_popup_$widgetId", false).apply()
+                    
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+                    val cachedData = getCachedWeatherData(context)
+                    updateWidget(context, appWidgetManager, widgetId, cachedData)
+                }
+            }
+            ACTION_HIDE_RAIN_POPUP -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("rain_popup_$widgetId", false).apply()
+                    
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+                    val cachedData = getCachedWeatherData(context)
+                    updateWidget(context, appWidgetManager, widgetId, cachedData)
+                }
+            }
+            ACTION_SHOW_TEMP_POPUP -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("temp_popup_$widgetId", true).apply()
+                    prefs.edit().putBoolean("rain_popup_$widgetId", false).apply()
+                    
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+                    val cachedData = getCachedWeatherData(context)
+                    updateWidget(context, appWidgetManager, widgetId, cachedData)
+                }
+            }
+            ACTION_HIDE_TEMP_POPUP -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    prefs.edit().putBoolean("temp_popup_$widgetId", false).apply()
+                    
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+                    val cachedData = getCachedWeatherData(context)
+                    updateWidget(context, appWidgetManager, widgetId, cachedData)
+                }
+            }
             Intent.ACTION_BOOT_COMPLETED -> {
                 scheduleNextUpdate(context)
             }
@@ -67,7 +113,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         Thread {
             try {
                 Log.d(TAG, "Scraping weather data in background thread...")
-                val weatherData = WeatherScraper.scrape()
+                val weatherData = WeatherScraper.scrape(context)
                 if (weatherData != null) {
                     Log.d(TAG, "Scrape successful! Saving to cache...")
                     saveCachedWeatherData(context, weatherData)
@@ -94,6 +140,11 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         const val ACTION_REFRESH = "com.paris.weather.ACTION_REFRESH"
         const val ACTION_SHOW_COMMENT = "com.paris.weather.ACTION_SHOW_COMMENT"
         const val EXTRA_COMMENT = "com.paris.weather.EXTRA_COMMENT"
+        
+        const val ACTION_SHOW_RAIN_POPUP = "com.paris.weather.ACTION_SHOW_RAIN_POPUP"
+        const val ACTION_HIDE_RAIN_POPUP = "com.paris.weather.ACTION_HIDE_RAIN_POPUP"
+        const val ACTION_SHOW_TEMP_POPUP = "com.paris.weather.ACTION_SHOW_TEMP_POPUP"
+        const val ACTION_HIDE_TEMP_POPUP = "com.paris.weather.ACTION_HIDE_TEMP_POPUP"
         
         private const val PREFS_NAME = "com.paris.weather.WIDGET_PREFS"
         private const val KEY_COMMENT_PREFIX = "comment_"
@@ -260,6 +311,38 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 views.setTextViewText(R.id.text_wind, weatherData.windText)
                 views.setTextViewText(R.id.text_ecart, "Écart saison : ${weatherData.ecartText}")
 
+                // Set popups click intents
+                setPopupIntent(context, views, widgetId, R.id.layout_precip, ACTION_SHOW_RAIN_POPUP)
+                setPopupIntent(context, views, widgetId, R.id.btn_close_rain_popup, ACTION_HIDE_RAIN_POPUP)
+                setPopupIntent(context, views, widgetId, R.id.text_current_temp, ACTION_SHOW_TEMP_POPUP)
+                setPopupIntent(context, views, widgetId, R.id.btn_close_temp_popup, ACTION_HIDE_TEMP_POPUP)
+
+                // Dynamic popup visibility & image loading
+                val showRain = prefs.getBoolean("rain_popup_$widgetId", false)
+                val showTemp = prefs.getBoolean("temp_popup_$widgetId", false)
+
+                if (showRain) {
+                    views.setViewVisibility(R.id.layout_rain_popup, android.view.View.VISIBLE)
+                    val precipFile = java.io.File(context.cacheDir, "precipitation.png")
+                    if (precipFile.exists()) {
+                        val bmp = android.graphics.BitmapFactory.decodeFile(precipFile.absolutePath)
+                        if (bmp != null) views.setImageViewBitmap(R.id.image_rain_graph, bmp)
+                    }
+                } else {
+                    views.setViewVisibility(R.id.layout_rain_popup, android.view.View.GONE)
+                }
+
+                if (showTemp) {
+                    views.setViewVisibility(R.id.layout_temp_popup, android.view.View.VISIBLE)
+                    val tempFile = java.io.File(context.cacheDir, "temperatures.png")
+                    if (tempFile.exists()) {
+                        val bmp = android.graphics.BitmapFactory.decodeFile(tempFile.absolutePath)
+                        if (bmp != null) views.setImageViewBitmap(R.id.image_temp_graph, bmp)
+                    }
+                } else {
+                    views.setViewVisibility(R.id.layout_temp_popup, android.view.View.GONE)
+                }
+
                 val currentIconRes = context.resources.getIdentifier(weatherData.weatherIconName, "drawable", context.packageName)
                 if (currentIconRes != 0) {
                     views.setImageViewResource(R.id.icon_weather, currentIconRes)
@@ -383,6 +466,20 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
                 viewId + widgetId * 1000, // Unique request code per layout and widget
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(viewId, pendingIntent)
+        }
+
+        private fun setPopupIntent(context: Context, views: RemoteViews, widgetId: Int, viewId: Int, actionStr: String) {
+            val intent = Intent(context, WeatherWidgetProvider::class.java).apply {
+                action = actionStr
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+            }
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                viewId + widgetId * 1000,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
