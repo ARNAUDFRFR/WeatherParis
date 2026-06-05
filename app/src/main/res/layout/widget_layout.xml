@@ -971,6 +971,105 @@
 
                 </LinearLayout>
 
+                <!-- Minute Labels -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="9"
+                    android:layout_marginTop="2dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="5m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="10m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="15m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="25m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="30m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="40m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="50m"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="3dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="1h"
+                        android:textColor="#828A96"
+                        android:textSize="8sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
                 <!-- Time Markers below the blocks -->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -999,11 +1098,12 @@
 
             </LinearLayout>
 
-            <!-- Graph Image (Reduced height and positioned below the timeline) -->
+            <!-- Graph Image (Restored to fill remaining space with layout_weight) -->
             <ImageView
                 android:id="@+id/image_rain_graph"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginTop="4dp"
                 android:scaleType="fitCenter"
                 android:src="@android:drawable/ic_menu_gallery" />
