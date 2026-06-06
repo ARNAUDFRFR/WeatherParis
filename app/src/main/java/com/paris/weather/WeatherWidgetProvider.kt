@@ -58,6 +58,9 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     val appWidgetManager = AppWidgetManager.getInstance(context)
                     val cachedData = getCachedWeatherData(context)
                     updateWidget(context, appWidgetManager, widgetId, cachedData)
+                    
+                    // Trigger immediate background update to fetch the latest radar image
+                    triggerScrapeAndUpdate(context, intArrayOf(widgetId))
                 }
             }
             ACTION_HIDE_RAIN_POPUP -> {
@@ -81,6 +84,9 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     val appWidgetManager = AppWidgetManager.getInstance(context)
                     val cachedData = getCachedWeatherData(context)
                     updateWidget(context, appWidgetManager, widgetId, cachedData)
+                    
+                    // Trigger immediate background update to fetch the latest temperature graph
+                    triggerScrapeAndUpdate(context, intArrayOf(widgetId))
                 }
             }
             ACTION_HIDE_TEMP_POPUP -> {
@@ -188,7 +194,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             val triggerTime = SystemClock.elapsedRealtime() + interval
             
             alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                AlarmManager.ELAPSED_REALTIME,
                 triggerTime,
                 interval,
                 pendingIntent
