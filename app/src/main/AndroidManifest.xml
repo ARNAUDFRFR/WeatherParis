@@ -28,6 +28,13 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.paris.weather.ACTION_REFRESH" />
                 <action android:name="com.paris.weather.ACTION_SHOW_COMMENT" />
+                <action android:name="com.paris.weather.ACTION_SHOW_RAIN_POPUP" />
+                <action android:name="com.paris.weather.ACTION_HIDE_RAIN_POPUP" />
+                <action android:name="com.paris.weather.ACTION_SHOW_TEMP_POPUP" />
+                <action android:name="com.paris.weather.ACTION_HIDE_TEMP_POPUP" />
+                <action android:name="com.paris.weather.ACTION_SELECT_ZONE_PARIS" />
+                <action android:name="com.paris.weather.ACTION_SELECT_ZONE_NEUILLY" />
+                <action android:name="com.paris.weather.ACTION_TOGGLE_FORECAST_PAGE" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <meta-data

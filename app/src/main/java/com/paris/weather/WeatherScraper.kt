@@ -302,8 +302,12 @@ object WeatherScraper {
             Log.e(TAG, "Error scraping home page", e)
         }
 
-        // 2. Scrape Previsions Page for 6 days
+        // 2. Scrape Previsions Page for up to 8 days + tendance
         val forecasts = ArrayList<ForecastData>()
+        var tendancePicto1 = "picto_44"
+        var tendancePicto2 = "picto_44"
+        var tendancePeriod = ""
+        var tendanceComment = ""
         try {
             val docPrev = Jsoup.connect("https://www.meteo-paris.com/ile-de-france/previsions")
                 .userAgent(USER_AGENT)
@@ -377,7 +381,7 @@ object WeatherScraper {
                 // Parse day name in French
                 val dayName = getDayNameFr(dateStr)
 
-                // Parse uncertainty indicator
+                // Parse day-of-month number and uncertainty indicator
                 val dtObj = SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(dateStr)
                 val cal = Calendar.getInstance()
                 if (dtObj != null) cal.time = dtObj
@@ -415,6 +419,7 @@ object WeatherScraper {
                 forecasts.add(
                     ForecastData(
                         dayName = dayName,
+                        dayNum = dayNum,
                         iconMorning = morningIcon,
                         iconAfternoon = afternoonIcon,
                         tempMin = tempMin,
@@ -424,9 +429,45 @@ object WeatherScraper {
                     )
                 )
 
-                if (forecasts.size >= 6) {
+                if (forecasts.size >= 8) {
                     break
                 }
+            }
+
+            // Extract TENDANCE block (after the 8 regular days)
+            try {
+                val tendanceM = Pattern.compile(
+                    "TENDANCE[^<]*:[^<]*<",
+                    Pattern.CASE_INSENSITIVE
+                ).matcher(htmlPrev)
+                if (tendanceM.find()) {
+                    // Get a window around TENDANCE
+                    val tPos = tendanceM.start()
+                    val tWindow = htmlPrev.substring(tPos, Math.min(tPos + 3000, htmlPrev.length))
+
+                    // Extract period: text before ":"
+                    val periodM = Pattern.compile("(TENDANCE[^:]+):").matcher(tWindow)
+                    if (periodM.find()) {
+                        tendancePeriod = periodM.group(1)?.trim()?.replace(Regex("<[^>]+>"), "") ?: ""
+                    }
+
+                    // Extract comment: description field
+                    val tDescM = Pattern.compile("\"description\"\\s*:\\s*\"([^\"]+)\"").matcher(tWindow)
+                    if (tDescM.find()) {
+                        tendanceComment = tDescM.group(1)?.replace("\"", "") ?: ""
+                    }
+
+                    // Extract tendance pictos (2 pictos after the TENDANCE block)
+                    val tPictos = ArrayList<String>()
+                    val tPictoM = Pattern.compile("picto\\.svg#(picto_\\d+)").matcher(tWindow)
+                    while (tPictoM.find() && tPictos.size < 2) {
+                        tPictos.add(tPictoM.group(1) ?: "picto_44")
+                    }
+                    if (tPictos.size >= 1) tendancePicto1 = tPictos[0]
+                    if (tPictos.size >= 2) tendancePicto2 = tPictos[1]
+                }
+            } catch (e2: Exception) {
+                Log.e(TAG, "Error extracting tendance block", e2)
             }
 
         } catch (e: Exception) {
@@ -434,11 +475,12 @@ object WeatherScraper {
         }
 
         // Pad with fallbacks if needed
-        while (forecasts.size < 6) {
+        while (forecasts.size < 8) {
             val idx = forecasts.size + 1
             forecasts.add(
                 ForecastData(
                     dayName = "Jour $idx",
+                    dayNum = "",
                     iconMorning = "picto_44",
                     iconAfternoon = "picto_44",
                     tempMin = "--",
@@ -479,7 +521,11 @@ object WeatherScraper {
             rainHourBlocks = nowcastBlocks,
             rainHourStart = nowcastStart,
             rainHourEnd = nowcastEnd,
-            forecasts = forecasts
+            forecasts = forecasts,
+            tendancePicto1 = tendancePicto1,
+            tendancePicto2 = tendancePicto2,
+            tendancePeriod = tendancePeriod,
+            tendanceComment = tendanceComment
         )
 
         if (context != null) {

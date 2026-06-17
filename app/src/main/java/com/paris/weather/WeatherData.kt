@@ -22,11 +22,17 @@ data class WeatherData(
     val rainHourBlocks: List<Int>,
     val rainHourStart: String,
     val rainHourEnd: String,
-    val forecasts: List<ForecastData>
+    val forecasts: List<ForecastData>,
+    // Page 2: days 7 & 8 + tendance
+    val tendancePicto1: String = "picto_44",
+    val tendancePicto2: String = "picto_44",
+    val tendancePeriod: String = "",
+    val tendanceComment: String = ""
 )
 
 data class ForecastData(
     val dayName: String,
+    val dayNum: String = "",      // Day of month, e.g. "22"
     val iconMorning: String,
     val iconAfternoon: String,
     val tempMin: String,

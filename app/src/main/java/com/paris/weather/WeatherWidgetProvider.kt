@@ -118,6 +118,18 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     triggerScrapeAndUpdate(context, appWidgetIds)
                 }
             }
+            ACTION_TOGGLE_FORECAST_PAGE -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                    val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    val currentPage = prefs.getInt("forecast_page_$widgetId", 1)
+                    val newPage = if (currentPage == 1) 2 else 1
+                    prefs.edit().putInt("forecast_page_$widgetId", newPage).apply()
+                    val appWidgetManager = AppWidgetManager.getInstance(context)
+                    val cachedData = getCachedWeatherData(context)
+                    updateWidget(context, appWidgetManager, widgetId, cachedData)
+                }
+            }
             Intent.ACTION_BOOT_COMPLETED -> {
                 scheduleNextUpdate(context)
             }
@@ -172,6 +184,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         
         const val ACTION_SELECT_ZONE_PARIS = "com.paris.weather.ACTION_SELECT_ZONE_PARIS"
         const val ACTION_SELECT_ZONE_NEUILLY = "com.paris.weather.ACTION_SELECT_ZONE_NEUILLY"
+        const val ACTION_TOGGLE_FORECAST_PAGE = "com.paris.weather.ACTION_TOGGLE_FORECAST_PAGE"
         
         private const val PREFS_NAME = "com.paris.weather.WIDGET_PREFS"
         private const val KEY_COMMENT_PREFIX = "comment_"
@@ -258,6 +271,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     for (f in data.forecasts) {
                         val fObj = JSONObject().apply {
                             put("dayName", f.dayName)
+                            put("dayNum", f.dayNum)
                             put("iconMorning", f.iconMorning)
                             put("iconAfternoon", f.iconAfternoon)
                             put("tempMin", f.tempMin)
@@ -268,6 +282,10 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                         fArray.put(fObj)
                     }
                     put("forecasts", fArray)
+                    put("tendancePicto1", data.tendancePicto1)
+                    put("tendancePicto2", data.tendancePicto2)
+                    put("tendancePeriod", data.tendancePeriod)
+                    put("tendanceComment", data.tendanceComment)
                 }
                 context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
                     .edit()
@@ -290,6 +308,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     forecasts.add(
                         ForecastData(
                             dayName = fObj.getString("dayName"),
+                            dayNum = fObj.optString("dayNum", ""),
                             iconMorning = fObj.getString("iconMorning"),
                             iconAfternoon = fObj.getString("iconAfternoon"),
                             tempMin = fObj.getString("tempMin"),
@@ -332,7 +351,11 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     rainHourBlocks = rainHourBlocks,
                     rainHourStart = obj.optString("rainHourStart", "--:--"),
                     rainHourEnd = obj.optString("rainHourEnd", "--:--"),
-                    forecasts = forecasts
+                    forecasts = forecasts,
+                    tendancePicto1 = obj.optString("tendancePicto1", "picto_44"),
+                    tendancePicto2 = obj.optString("tendancePicto2", "picto_44"),
+                    tendancePeriod = obj.optString("tendancePeriod", ""),
+                    tendanceComment = obj.optString("tendanceComment", "")
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Error parsing cached weather data JSON", e)
@@ -447,7 +470,32 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 val nuitRes = context.resources.getIdentifier(weatherData.nuitPicto, "drawable", context.packageName)
                 if (nuitRes != 0) views.setImageViewResource(R.id.icon_nuit, nuitRes)
 
-                // 6 Forecasts
+                // 6 Forecasts Page 1 (days 1-6) + Page 2 (days 7-8 + tendance)
+                val forecastPage = prefs.getInt("forecast_page_$widgetId", 1)
+
+                // Toggle arrow click intent (between rows)
+                val toggleIntent = Intent(context, WeatherWidgetProvider::class.java).apply {
+                    action = ACTION_TOGGLE_FORECAST_PAGE
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+                }
+                val togglePending = PendingIntent.getBroadcast(
+                    context,
+                    900000 + widgetId,
+                    toggleIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                views.setOnClickPendingIntent(R.id.btn_page_toggle, togglePending)
+
+                if (forecastPage == 1) {
+                    views.setViewVisibility(R.id.layout_forecast_page1, View.VISIBLE)
+                    views.setViewVisibility(R.id.layout_forecast_page2, View.GONE)
+                    views.setTextViewText(R.id.btn_page_toggle, "›")
+                } else {
+                    views.setViewVisibility(R.id.layout_forecast_page1, View.GONE)
+                    views.setViewVisibility(R.id.layout_forecast_page2, View.VISIBLE)
+                    views.setTextViewText(R.id.btn_page_toggle, "‹")
+                }
+
                 val fLayouts = listOf(
                     R.id.layout_day1, R.id.layout_day2, R.id.layout_day3,
                     R.id.layout_day4, R.id.layout_day5, R.id.layout_day6
@@ -476,7 +524,8 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                 for (i in 0 until 6) {
                     if (i < weatherData.forecasts.size) {
                         val f = weatherData.forecasts[i]
-                        views.setTextViewText(fNames[i], f.dayName)
+                        val nameLabel = if (f.dayNum.isNotEmpty()) "${f.dayName} ${f.dayNum}" else f.dayName
+                        views.setTextViewText(fNames[i], nameLabel)
                         views.setTextViewText(fTemps[i], "${f.tempMax}° / ${f.tempMin}°")
 
                         val resM = context.resources.getIdentifier(f.iconMorning, "drawable", context.packageName)
@@ -497,6 +546,39 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                         setDayClickIntent(context, views, widgetId, fLayouts[i], f.comment)
                     }
                 }
+
+                // Page 2: Days 7 & 8
+                val p2Days = listOf(
+                    Pair(R.id.layout_day7, Triple(R.id.text_day7_name, R.id.text_day7_temp,
+                        Pair(R.id.icon_day7_morning, R.id.icon_day7_afternoon))),
+                    Pair(R.id.layout_day8, Triple(R.id.text_day8_name, R.id.text_day8_temp,
+                        Pair(R.id.icon_day8_morning, R.id.icon_day8_afternoon)))
+                )
+                for ((layoutId, refs) in p2Days.withIndex()) {
+                    val fIdx = 6 + layoutId
+                    if (fIdx < weatherData.forecasts.size) {
+                        val f = weatherData.forecasts[fIdx]
+                        val (lId, triple) = p2Days[layoutId]
+                        val (nameId, tempId, icons) = triple
+                        val (mIconId, aIconId) = icons
+                        val nameLabel = if (f.dayNum.isNotEmpty()) "${f.dayName} ${f.dayNum}" else f.dayName
+                        views.setTextViewText(nameId, nameLabel)
+                        views.setTextViewText(tempId, "${f.tempMax}° / ${f.tempMin}°")
+                        val resM = context.resources.getIdentifier(f.iconMorning, "drawable", context.packageName)
+                        if (resM != 0) views.setImageViewResource(mIconId, resM)
+                        val resA = context.resources.getIdentifier(f.iconAfternoon, "drawable", context.packageName)
+                        if (resA != 0) views.setImageViewResource(aIconId, resA)
+                        setDayClickIntent(context, views, widgetId, lId, f.comment)
+                    }
+                }
+
+                // Page 2: Tendance section
+                val tp1Res = context.resources.getIdentifier(weatherData.tendancePicto1, "drawable", context.packageName)
+                if (tp1Res != 0) views.setImageViewResource(R.id.icon_tendance1, tp1Res)
+                val tp2Res = context.resources.getIdentifier(weatherData.tendancePicto2, "drawable", context.packageName)
+                if (tp2Res != 0) views.setImageViewResource(R.id.icon_tendance2, tp2Res)
+                views.setTextViewText(R.id.text_tendance_period, weatherData.tendancePeriod)
+                views.setTextViewText(R.id.text_tendance_comment, weatherData.tendanceComment)
 
                 // Dynamic Comment
                 val currentComment = getSavedComment(context, widgetId) ?: weatherData.summary
