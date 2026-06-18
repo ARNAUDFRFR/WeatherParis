@@ -547,29 +547,30 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     }
                 }
 
-                // Page 2: Days 7 & 8
-                val p2Days = listOf(
-                    Pair(R.id.layout_day7, Triple(R.id.text_day7_name, R.id.text_day7_temp,
-                        Pair(R.id.icon_day7_morning, R.id.icon_day7_afternoon))),
-                    Pair(R.id.layout_day8, Triple(R.id.text_day8_name, R.id.text_day8_temp,
-                        Pair(R.id.icon_day8_morning, R.id.icon_day8_afternoon)))
-                )
-                for ((layoutId, refs) in p2Days.withIndex()) {
-                    val fIdx = 6 + layoutId
-                    if (fIdx < weatherData.forecasts.size) {
-                        val f = weatherData.forecasts[fIdx]
-                        val (lId, triple) = p2Days[layoutId]
-                        val (nameId, tempId, icons) = triple
-                        val (mIconId, aIconId) = icons
-                        val nameLabel = if (f.dayNum.isNotEmpty()) "${f.dayName} ${f.dayNum}" else f.dayName
-                        views.setTextViewText(nameId, nameLabel)
-                        views.setTextViewText(tempId, "${f.tempMax}° / ${f.tempMin}°")
-                        val resM = context.resources.getIdentifier(f.iconMorning, "drawable", context.packageName)
-                        if (resM != 0) views.setImageViewResource(mIconId, resM)
-                        val resA = context.resources.getIdentifier(f.iconAfternoon, "drawable", context.packageName)
-                        if (resA != 0) views.setImageViewResource(aIconId, resA)
-                        setDayClickIntent(context, views, widgetId, lId, f.comment)
-                    }
+                // Page 2: Day 7
+                if (weatherData.forecasts.size > 6) {
+                    val f7 = weatherData.forecasts[6]
+                    val nameLabel7 = if (f7.dayNum.isNotEmpty()) "${f7.dayName} ${f7.dayNum}" else f7.dayName
+                    views.setTextViewText(R.id.text_day7_name, nameLabel7)
+                    views.setTextViewText(R.id.text_day7_temp, "${f7.tempMax}° / ${f7.tempMin}°")
+                    val resM7 = context.resources.getIdentifier(f7.iconMorning, "drawable", context.packageName)
+                    if (resM7 != 0) views.setImageViewResource(R.id.icon_day7_morning, resM7)
+                    val resA7 = context.resources.getIdentifier(f7.iconAfternoon, "drawable", context.packageName)
+                    if (resA7 != 0) views.setImageViewResource(R.id.icon_day7_afternoon, resA7)
+                    setDayClickIntent(context, views, widgetId, R.id.layout_day7, f7.comment)
+                }
+
+                // Page 2: Day 8
+                if (weatherData.forecasts.size > 7) {
+                    val f8 = weatherData.forecasts[7]
+                    val nameLabel8 = if (f8.dayNum.isNotEmpty()) "${f8.dayName} ${f8.dayNum}" else f8.dayName
+                    views.setTextViewText(R.id.text_day8_name, nameLabel8)
+                    views.setTextViewText(R.id.text_day8_temp, "${f8.tempMax}° / ${f8.tempMin}°")
+                    val resM8 = context.resources.getIdentifier(f8.iconMorning, "drawable", context.packageName)
+                    if (resM8 != 0) views.setImageViewResource(R.id.icon_day8_morning, resM8)
+                    val resA8 = context.resources.getIdentifier(f8.iconAfternoon, "drawable", context.packageName)
+                    if (resA8 != 0) views.setImageViewResource(R.id.icon_day8_afternoon, resA8)
+                    setDayClickIntent(context, views, widgetId, R.id.layout_day8, f8.comment)
                 }
 
                 // Page 2: Tendance section
