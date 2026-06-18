@@ -956,7 +956,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="<"
+                    android:text="&lt;"
                     android:textColor="#B0FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold"
