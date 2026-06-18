@@ -484,16 +484,15 @@ class WeatherWidgetProvider : AppWidgetProvider() {
                     toggleIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-                views.setOnClickPendingIntent(R.id.btn_page_toggle, togglePending)
+                views.setOnClickPendingIntent(R.id.btn_page_toggle_p1, togglePending)
+                views.setOnClickPendingIntent(R.id.btn_page_toggle_p2, togglePending)
 
                 if (forecastPage == 1) {
                     views.setViewVisibility(R.id.layout_forecast_page1, View.VISIBLE)
                     views.setViewVisibility(R.id.layout_forecast_page2, View.GONE)
-                    views.setTextViewText(R.id.btn_page_toggle, "›")
                 } else {
                     views.setViewVisibility(R.id.layout_forecast_page1, View.GONE)
                     views.setViewVisibility(R.id.layout_forecast_page2, View.VISIBLE)
-                    views.setTextViewText(R.id.btn_page_toggle, "‹")
                 }
 
                 val fLayouts = listOf(

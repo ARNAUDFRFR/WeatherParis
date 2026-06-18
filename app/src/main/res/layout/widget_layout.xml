@@ -560,13 +560,34 @@
 
         </LinearLayout>
 
-        <!-- Divider between rows -->
-        <ImageView
+        <!-- Divider between rows with Toggle Arrow -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/border_glass"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="4dp" />
+            android:layout_height="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/btn_page_toggle_p1"
+                android:background="@color/border_glass" />
+
+            <TextView
+                android:id="@+id/btn_page_toggle_p1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="›"
+                android:textColor="#80FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true" />
+        </RelativeLayout>
 
         <!-- Forecast Row 2 -->
         <LinearLayout
@@ -786,20 +807,7 @@
         </LinearLayout>
         <!-- END PAGE 1 -->
 
-        <!-- Page toggle arrow button (discrete, right edge) -->
-        <TextView
-            android:id="@+id/btn_page_toggle"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
-            android:gravity="center"
-            android:text="›"
-            android:textColor="#80FFFFFF"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:focusable="true" />
+
 
         <!-- PAGE 2: Days 7 &amp; 8 + Tendance -->
         <LinearLayout
@@ -933,13 +941,34 @@
 
             </LinearLayout>
 
-            <!-- Divider between rows -->
-            <ImageView
+            <!-- Divider between rows with Toggle Arrow -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/border_glass"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="4dp" />
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/btn_page_toggle_p2"
+                    android:background="@color/border_glass" />
+
+                <TextView
+                    android:id="@+id/btn_page_toggle_p2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="‹"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </RelativeLayout>
 
             <!-- Row 2: Tendance -->
             <LinearLayout
