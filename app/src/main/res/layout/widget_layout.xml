@@ -1003,6 +1003,8 @@
 
     </RelativeLayout>
 
+    </LinearLayout>
+
     <!-- Overlay for Rain/Precipitation Tracking -->
     <FrameLayout
         android:id="@+id/layout_rain_popup"
