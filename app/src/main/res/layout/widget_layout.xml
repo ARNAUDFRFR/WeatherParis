@@ -986,14 +986,14 @@
                     android:layout_marginEnd="10dp">
                     <ImageView
                         android:id="@+id/icon_tendance1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_marginEnd="6dp"
                         android:src="@android:drawable/ic_menu_report_image" />
                     <ImageView
                         android:id="@+id/icon_tendance2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@android:drawable/ic_menu_report_image" />
                 </LinearLayout>
 
@@ -1010,7 +1010,7 @@
                         android:layout_height="wrap_content"
                         android:text="TENDANCE"
                         android:textColor="@color/text_accent"
-                        android:textSize="11sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -1019,7 +1019,7 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/text_secondary"
-                        android:textSize="11sp"
+                        android:textSize="13sp"
                         android:maxLines="3"
                         android:ellipsize="end" />
 
