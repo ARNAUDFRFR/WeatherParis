@@ -575,7 +575,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text=">"
-                android:textColor="#B0FFFFFF"
+                android:textColor="@color/text_secondary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:clickable="true"
@@ -942,7 +942,6 @@
             </LinearLayout>
 
             <!-- Divider between rows with Toggle Arrow -->
-            <!-- Divider between rows with Toggle Arrow -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
@@ -957,7 +956,7 @@
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="&lt;"
-                    android:textColor="#B0FFFFFF"
+                    android:textColor="@color/text_secondary"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:clickable="true"

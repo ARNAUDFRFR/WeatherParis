@@ -315,7 +315,8 @@ object WeatherScraper {
                 .timeout(8000)
                 .get()
 
-            val htmlPrev = docPrev.html()
+            val rawHtml = docPrev.html()
+            val htmlPrev = decodeUnicodeEscapes(rawHtml)
 
             // Find all pictos in previsions
             val allPictos = ArrayList<String>()
@@ -437,34 +438,34 @@ object WeatherScraper {
             // Extract TENDANCE block (after the 8 regular days)
             try {
                 val tendanceM = Pattern.compile(
-                    "TENDANCE[^<]*:[^<]*<",
+                    "\\*\\*\\*(?:&nbsp;|\\s)*TENDANCE[^<]*:[^<]*<",
                     Pattern.CASE_INSENSITIVE
                 ).matcher(htmlPrev)
                 if (tendanceM.find()) {
-                    // Get a window around TENDANCE
-                    val tPos = tendanceM.start()
-                    val tWindow = htmlPrev.substring(tPos, Math.min(tPos + 3000, htmlPrev.length))
+                    val tMatch = tendanceM.group()
 
-                    // Extract period: text before ":"
-                    val periodM = Pattern.compile("(TENDANCE[^:]+):").matcher(tWindow)
+                    // Extract period
+                    val periodM = Pattern.compile("TENDANCE([^:]+):", Pattern.CASE_INSENSITIVE).matcher(tMatch)
                     if (periodM.find()) {
-                        tendancePeriod = periodM.group(1)?.trim()?.replace(Regex("<[^>]+>"), "") ?: ""
+                        tendancePeriod = org.jsoup.Jsoup.parse(periodM.group(1) ?: "").text().trim()
                     }
 
-                    // Extract comment: description field
-                    val tDescM = Pattern.compile("\"description\"\\s*:\\s*\"([^\"]+)\"").matcher(tWindow)
-                    if (tDescM.find()) {
-                        tendanceComment = tDescM.group(1)?.replace("\"", "") ?: ""
+                    // Extract comment: the text after ":" and before "<"
+                    val colonIdx = tMatch.indexOf(":")
+                    if (colonIdx != -1) {
+                        val rawComment = tMatch.substring(colonIdx + 1, tMatch.length - 1).trim()
+                        tendanceComment = org.jsoup.Jsoup.parse(rawComment).text().trim()
                     }
 
-                    // Extract tendance pictos (2 pictos after the TENDANCE block)
-                    val tPictos = ArrayList<String>()
-                    val tPictoM = Pattern.compile("picto\\.svg#(picto_\\d+)").matcher(tWindow)
-                    while (tPictoM.find() && tPictos.size < 2) {
-                        tPictos.add(tPictoM.group(1) ?: "picto_44")
-                    }
-                    if (tPictos.size >= 1) tendancePicto1 = tPictos[0]
-                    if (tPictos.size >= 2) tendancePicto2 = tPictos[1]
+                    // Extract pictos from the surrounding window
+                    val tPos = tendanceM.start()
+                    val tWindow = htmlPrev.substring(Math.max(0, tPos - 300), Math.min(htmlPrev.length, tPos + 300))
+
+                    val p1M = Pattern.compile("firstPicto[^:]*:\\s*(\\d+)", Pattern.CASE_INSENSITIVE).matcher(tWindow)
+                    val p2M = Pattern.compile("secondPicto[^:]*:\\s*(\\d+)", Pattern.CASE_INSENSITIVE).matcher(tWindow)
+
+                    if (p1M.find()) tendancePicto1 = "picto_" + p1M.group(1)
+                    if (p2M.find()) tendancePicto2 = "picto_" + p2M.group(1)
                 }
             } catch (e2: Exception) {
                 Log.e(TAG, "Error extracting tendance block", e2)
@@ -572,6 +573,22 @@ object WeatherScraper {
         }
 
         return dataObj
+    }
+
+    private fun decodeUnicodeEscapes(input: String): String {
+        val matcher = Pattern.compile("\\\\u([0-9a-fA-F]{4})").matcher(input)
+        val sb = StringBuffer()
+        while (matcher.find()) {
+            val hex = matcher.group(1)
+            try {
+                val charVal = hex.toInt(16).toChar()
+                matcher.appendReplacement(sb, java.util.regex.Matcher.quoteReplacement(charVal.toString()))
+            } catch (e: Exception) {
+                matcher.appendReplacement(sb, java.util.regex.Matcher.quoteReplacement(matcher.group(0)))
+            }
+        }
+        matcher.appendTail(sb)
+        return sb.toString()
     }
 
     private fun getDayNameFr(dateStr: String): String {
