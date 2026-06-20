@@ -944,14 +944,14 @@
             <!-- Divider between rows with Toggle Arrow -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="24dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp">
 
                 <TextView
                     android:id="@+id/btn_page_toggle_p2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
@@ -976,6 +976,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="top"
+                android:layout_marginTop="-6dp"
                 android:padding="4dp">
 
                 <!-- 2 Tendance pictos on the left -->
