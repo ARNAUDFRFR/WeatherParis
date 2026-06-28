@@ -453,7 +453,7 @@ object WeatherScraper {
             // Extract TENDANCE block (after the 8 regular days)
             try {
                 val tendanceM = Pattern.compile(
-                    "\\*\\*\\*(?:&nbsp;|\\s)*TENDANCE[^<]*:[^<]*<",
+                    "(?:\\*\\*\\*)?\\s*(?:&nbsp;)?\\s*TENDANCE[^<]*:[^<]*<",
                     Pattern.CASE_INSENSITIVE
                 ).matcher(htmlPrev)
                 if (tendanceM.find()) {
