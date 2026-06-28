@@ -404,15 +404,30 @@ object WeatherScraper {
                     }
                 }
 
-                // Window search for temperatures & comments
+                // Window search for comments
                 val pos = dm.first
                 val window = htmlPrev.substring(pos, Math.min(pos + 3000, htmlPrev.length))
 
                 val descM = Pattern.compile("\"description\"\\s*:\\s*\"([^\"]+)\"").matcher(window)
                 val comment = if (descM.find()) descM.group(1) ?: "" else ""
 
-                val tminM = Pattern.compile("\"Temp[^\"]+\\s+min\"[^}]+\"value\"\\s*:\\s*(\\d+)", Pattern.CASE_INSENSITIVE).matcher(window)
-                val tmaxM = Pattern.compile("\"Temp[^\"]+\\s+max\"[^}]+\"value\"\\s*:\\s*(\\d+)", Pattern.CASE_INSENSITIVE).matcher(window)
+                // Find temperature position in forecast block
+                var posTemp = dm.first
+                var idx = htmlPrev.indexOf(dateStr)
+                while (idx != -1) {
+                    val startW = Math.max(0, idx - 150)
+                    val endW = Math.min(htmlPrev.length, idx + 150)
+                    val windowCheck = htmlPrev.substring(startW, endW)
+                    if (windowCheck.contains("min") && windowCheck.contains("max") && windowCheck.contains("sunset")) {
+                        posTemp = idx
+                        break
+                    }
+                    idx = htmlPrev.indexOf(dateStr, idx + 1)
+                }
+
+                val windowTemp = htmlPrev.substring(Math.max(0, posTemp - 150), Math.min(posTemp + 150, htmlPrev.length))
+                val tminM = Pattern.compile("min[^:\\d-]*:\\s*(-?\\d+)", Pattern.CASE_INSENSITIVE).matcher(windowTemp)
+                val tmaxM = Pattern.compile("max[^:\\d-]*:\\s*(-?\\d+)", Pattern.CASE_INSENSITIVE).matcher(windowTemp)
 
                 val tempMin = if (tminM.find()) tminM.group(1) ?: "0" else "0"
                 val tempMax = if (tmaxM.find()) tmaxM.group(1) ?: "0" else "0"
