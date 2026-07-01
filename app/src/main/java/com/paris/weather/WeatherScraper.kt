@@ -418,7 +418,7 @@ object WeatherScraper {
                     val startW = Math.max(0, idx - 150)
                     val endW = Math.min(htmlPrev.length, idx + 150)
                     val windowCheck = htmlPrev.substring(startW, endW)
-                    if (windowCheck.contains("min") && windowCheck.contains("max") && windowCheck.contains("sunset")) {
+                    if (windowCheck.contains("min") && windowCheck.contains("max")) {
                         posTemp = idx
                         break
                     }
@@ -453,7 +453,7 @@ object WeatherScraper {
             // Extract TENDANCE block (after the 8 regular days)
             try {
                 val tendanceM = Pattern.compile(
-                    "(?:\\*\\*\\*)?\\s*(?:&nbsp;)?\\s*TENDANCE[^<]*:[^<]*<",
+                    "TENDANCE\\s+(?:du|de|pour|de\\s+la)\\s+.*?</p>",
                     Pattern.CASE_INSENSITIVE
                 ).matcher(htmlPrev)
                 if (tendanceM.find()) {
@@ -465,10 +465,10 @@ object WeatherScraper {
                         tendancePeriod = org.jsoup.Jsoup.parse(periodM.group(1) ?: "").text().trim()
                     }
 
-                    // Extract comment: the text after ":" and before "<"
+                    // Extract comment: the text after ":" and before "</p>"
                     val colonIdx = tMatch.indexOf(":")
                     if (colonIdx != -1) {
-                        val rawComment = tMatch.substring(colonIdx + 1, tMatch.length - 1).trim()
+                        val rawComment = tMatch.substring(colonIdx + 1).trim()
                         tendanceComment = org.jsoup.Jsoup.parse(rawComment).text().trim()
                     }
 
