@@ -212,10 +212,12 @@ object WeatherScraper {
                 if (midiM.find()) midiTemp = midiM.group(2) ?: "--"
                 if (soirM.find()) soirTemp = soirM.group(1) ?: "--"
                 if (nuitM.find()) nuitTemp = nuitM.group(1) ?: "--"
-
                 // Clean summary
                 summary = summary.replace(Regex("\\s*\\([^)]*\\)\\s*\\.?$"), "")
-
+                summary = summary.replaceFirst(Regex("^Ce\\s+[a-zA-Z\\u00e0-\\u00ff]+\\s*,?\\s*(?:\\u00e0|a)\\s+Paris\\s*:\\s*", RegexOption.IGNORE_CASE), "")
+                if (summary.isNotEmpty()) {
+                    summary = summary.substring(0, 1).uppercase(Locale.FRANCE) + summary.substring(1)
+                }
                 // Condition phrase
                 val summaryLower = summary.lowercase(Locale.FRANCE)
                 val normalizedSummary = removeAccents(summaryLower)
